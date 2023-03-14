@@ -29,4 +29,4 @@ def test_login_valido(driver):
     driver.find_element(By.ID, 'username').send_keys('tomsmith')
     driver.find_element(By.ID, 'password').send_keys('SuperSecretPassword!')
     driver.find_element(By.CSS_SELECTOR, 'button.radius').click()
-
+    assert driver.find_element(By.CSS_SELECTOR, 'div.flash.sucess')
