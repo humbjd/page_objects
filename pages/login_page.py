@@ -20,7 +20,7 @@ class LoginPage():
     def __init__(self, driver):
         self.driver.get('https://the-internet.herokuapp.com/login')
 
-    def with_(self, username, password):
+    def com_(self, username, password):
         self.driver.find_element(self._username_input['by'],
                                  self._username_input['value']).send_keys(username)
         self.driver.find_element(self._password_input['by'],
@@ -30,5 +30,10 @@ class LoginPage():
 
    # 2.3 - Ações Realizáveis
     def vejo_mensagem_de_sucesso(self):
-        self.driver.find_element(self.)
+        return self.driver.find_element(self._sucess_message['by'],
+                                 self._sucess_message['value']).is_displayed()
+
+    def vejo_mensagem_de_falha(self):
+        return self.driver.find_element(self._failure_message['by'],
+                                        self._failure_message['value']).is_displayed()
 
