@@ -6,9 +6,10 @@ from selenium.webdriver.common.by import By
 
 
 @pytest.fixture
-def login(request):
+def driver(request):
     # variavel local para armazenar o caminho do ChromeDriver
-    _chromedriver = os.path.join(os.getcwd(),'vendor', 'chromedriver.exe')
+    _chromedriver = 'vendor/chromedriver.exe'
+    #_chromedriver = os.path.join(os.getcwd(),'vendor', 'chromedriver.exe')
 
     if os.path.isfile(_chromedriver):
         # se existe um chromedriver dentro do projeto, instancie com ele
