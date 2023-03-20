@@ -73,3 +73,4 @@ def driver(request):
                 driver_ = webdriver.Firefox(_geckodriver)
             else:
                 driver_ = webdriver.Firefox()
+
