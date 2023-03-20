@@ -1,14 +1,25 @@
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
+from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
+from tests import config
 
 
 class BasePage():
-    def __init__(self,driver):
-        self.driver = driver # Este é o Selenium
+    def __init__(self, driver):
+        self.driver = driver  # Este é o Selenium (a bola)
 
-    def _entrar(self,url):
+    def _entrar(self, url):
+        url = 'https://the-internet.herokuapp.com/login'
         self.driver.get(url)
-
+        '''
+        if url.startwith('http'): # o endereço começa com http (ou https)
+            self.driver.get(url)
+        else:
+            self.driver.get(config.baseurl + url)
+            # imagine que o endereço viesse como '/login'
+            # endereço base + /login
+            # https://the-internet.herokuapp.com/login
+        '''
     def _encontrar(self, locator):
         return self.driver.find_element(locator['by'], locator['value'])
 
@@ -18,13 +29,13 @@ class BasePage():
     def _escrever(self, locator, text):
         self._encontrar(locator).send_keys(text)
 
-    def _aparece(self, locator, timeout=1):
+    def _aparecer(self, locator, timeout=0):
         if timeout > 0:
             try:
                 wait = WebDriverWait(self.driver, timeout)
                 wait.until(
-                    expected_conditions.visibity_of_element_located(
-                        (locator['by']), locator['value']
+                    expected_conditions.visibility_of_element_located(
+                        (locator['by'], locator['value'])
                     )
                 )
             except TimeoutException:
@@ -34,7 +45,6 @@ class BasePage():
             try:
                 return self._encontrar(locator).is_displayed()
             except NoSuchElementException:
-                return False
 
 
 
