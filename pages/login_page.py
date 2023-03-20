@@ -1,10 +1,10 @@
 # 1 -  Bibliotecas
 from selenium.webdriver.common.by import By
-
+from pages.base_page import BasePage # receber as funções da base_page
 
 # 2 - Classe
 
-class LoginPage():
+class LoginPage(BasePage):
     # 2.1 - Mapeamento dos Elementos da Classe
     _username_input = {'by': By.ID, 'value': 'username'}
     _password_input = {'by': By.ID, 'value': 'password'}
