@@ -57,8 +57,9 @@ def driver(request): # Inicialização dos testes - similar a um Before / Setup
                 'name': test_name
             }
         }
-        _credentials = os.environ['oauth-humbertojdantas-85849'] + ':' + os.environ['f98d3b08-acfc-4d53-b3eb-0cb1f9dcd28a']
-        _url = 'https://' + _credentials + '@ondemand.us-west-1.saucelabs.com:443/wd/hub'
+        #_credentials = os.environ['oauth-humbertojdantas-85849'] + ':' + os.environ['f98d3b08-acfc-4d53-b3eb-0cb1f9dcd28a']
+        #_url = 'https://' + _credentials + '@ondemand.us-west-1.saucelabs.com:443/wd/hub'
+        _url = 'https://oauth-humbertojdantas-85849:f98d3b08-acfc-4d53-b3eb-0cb1f9dcd28a@ondemand.us-west-1.saucelabs.com:443/wd/hub'
         driver_ = webdriver.Remote(_url, capabilities)
     else: # execução local / localhost
         if config.browser == 'chrome':

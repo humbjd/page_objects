@@ -1,6 +1,6 @@
 # 1 - Bibliotecas
 from selenium.webdriver.common.by import By
-from pages.base_page import BasePage # receber as funções da base_page
+from pages.base_page import BasePage # Receber as funções da base_page
 
 # 2 - Classe
 class LoginPage(BasePage):
@@ -53,7 +53,7 @@ class LoginPage(BasePage):
         return self.driver.find_element(self._failure_message['by'],
                                         self._failure_message['value']).is_displayed()
         '''
-        return  self._aparecer(self._failure_message, 10)
+        return self._aparecer(self._failure_message, 10)
 
     def testar_login_com_sucesso(self, login):
         # preencher o usuário, a senha e clicar no botão

@@ -9,15 +9,8 @@ class BasePage():
         self.driver = driver  # Este é o Selenium (a bola)
 
     def _entrar(self, url):
-        if url.startwith('http'):# O endereço começa com http ou https -  'https://the-internet.herokuapp.com/login'
-            self.driver.get(url)
-
-        else:
-            self.driver.get(config.baseurl + url)
-            # Imagine que endereço viesse como '/login'
-            # Endereço base + /login
-            # https://the-internet.herokuapp.com/login
-
+        url = 'https://the-internet.herokuapp.com/login'
+        self.driver.get(url)
         '''
         if url.startwith('http'): # o endereço começa com http (ou https)
             self.driver.get(url)
@@ -53,8 +46,3 @@ class BasePage():
                 return self._encontrar(locator).is_displayed()
             except NoSuchElementException:
                 return False
-
-
-
-
-
