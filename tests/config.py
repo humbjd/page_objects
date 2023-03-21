@@ -1,4 +1,4 @@
-baseurl = ''
+baseurl = 'https://the-internet.herokuapp.com'
 host = ''
 browser = ''
 browserversion = ''
