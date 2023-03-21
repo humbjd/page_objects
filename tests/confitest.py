@@ -40,7 +40,7 @@ def pystest_addoption(parser):
     )
 
 @pytest.fixture
-def driver(request):
+def driver(request): # Inicialização dos testes - similar a um Before / Setup
     config.baseurl = request.config.getoption('--baseurl')
     config.host = request.config.getoption('--host')
     config.browser = request.config.getoption('--browser')
@@ -74,3 +74,10 @@ def driver(request):
             else:
                 driver_ = webdriver.Firefox()
 
+
+    def quit(): # Finalização dos testes - similar ao After ou TearDown
+        # Sinalização de passou ou falhou conforme o retorno da requisição
+        sauce_result = 'failed' if request.node.rep_call.failed else 'passed'
+
+        driver_.execute_script('sauce:job-result={}'.format(sauce_result))
+        driver_.quit()
