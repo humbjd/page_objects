@@ -52,6 +52,7 @@ class BasePage():
             try:
                 return self._encontrar(locator).is_displayed()
             except NoSuchElementException:
+                return False
 
 
 
