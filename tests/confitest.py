@@ -81,3 +81,16 @@ def driver(request): # Inicialização dos testes - similar a um Before / Setup
 
         driver_.execute_script('sauce:job-result={}'.format(sauce_result))
         driver_.quit()
+
+    request.addfinalizer(quit)
+    return driver_
+
+@pytest.hookimpl(hookwrapper=True, tryfirst=True) # Implementação do gatilho de comunicação com SL
+def pytest_runtest_makereport(item, call):
+    # Parametros para geração do relatório / informações dos resultados
+    outcome = yield
+    rep = outcome.get_result()
+
+    # Definir atributos para o relatório
+    setattr(item, 'rep_' + rep.when, rep)
+
