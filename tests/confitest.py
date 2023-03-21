@@ -11,7 +11,7 @@ def pystest_addoption(parser):
     parser.addoption(
         '--baseurl',
         action='store',
-        default='https://the-internet.herokuapp.com'
+        default='https://the-internet.herokuapp.com',
         help='URL base da aplicação alvo do teste'
     )
     parser.addoption(
@@ -50,11 +50,11 @@ def driver(request): # Inicialização dos testes - similar a um Before / Setup
     if config.host == 'saucelabs':
         test_name = request.node.name # nome do teste
         capabilities = {
-            'browserName' : config.browser,
-            'browserVersion' : config.browserversion,
-            'platformName' : config.platform,
-            'sauce:options' : {
-                'name' : test_name
+            'browserName': config.browser,
+            'browserVersion': config.browserversion,
+            'platformName': config.platform,
+            'sauce:options': {
+                'name': test_name
             }
         }
         _credentials = os.environ['oauth-humbertojdantas-85849'] + ':' + os.environ['f98d3b08-acfc-4d53-b3eb-0cb1f9dcd28a']
