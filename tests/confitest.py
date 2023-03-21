@@ -1,18 +1,14 @@
 import os
-
 import pytest
 from selenium import webdriver
-from selenium.webdriver import firefox
+from . import config, credentials
 
-from . import config
-
-
-def pystest_addoption(parser):
+def pytest_addoption(parser):
     parser.addoption(
         '--baseurl',
         action='store',
         default='https://the-internet.herokuapp.com',
-        help='URL base da aplicação alvo do teste'
+        help='Url base da aplicacao alvo do teste'
     )
     parser.addoption(
         '--host',
@@ -29,14 +25,14 @@ def pystest_addoption(parser):
     parser.addoption(
         '--browserversion',
         action='store',
-        default='111.0',
+        default='96.0',
         help='Versão do browser'
     )
     parser.addoption(
         '--platform',
         action='store',
-        default='Windows 11',
-        help='Sistema Operacional a ser utilizado durante os teste (apenas no saucelabs)'
+        default='Windows 10',
+        help='Sistema Operacional a ser utilizado durante os testes (apenas no saucelabs)'
     )
 
 @pytest.fixture
@@ -48,7 +44,7 @@ def driver(request): # Inicialização dos testes - similar a um Before / Setup
     config.platform = request.config.getoption('--platform')
 
     if config.host == 'saucelabs':
-        test_name = request.node.name # nome do teste
+        test_name = request.node.name #nome do teste
         capabilities = {
             'browserName': config.browser,
             'browserVersion': config.browserversion,
@@ -57,9 +53,12 @@ def driver(request): # Inicialização dos testes - similar a um Before / Setup
                 'name': test_name
             }
         }
-        #_credentials = os.environ['oauth-humbertojdantas-85849'] + ':' + os.environ['f98d3b08-acfc-4d53-b3eb-0cb1f9dcd28a']
-        #_url = 'https://' + _credentials + '@ondemand.us-west-1.saucelabs.com:443/wd/hub'
-        _url = 'https://oauth-humbertojdantas-85849:f98d3b08-acfc-4d53-b3eb-0cb1f9dcd28a@ondemand.us-west-1.saucelabs.com:443/wd/hub'
+        #_credentials = os.environ['InstrutorIterasys06'] + ':' + os.environ['1ac20078-c9c4-44ce-afe5-a153f7c83aa2']
+
+        _credentials = credentials.SAUCE_USERNAME + ':' + credentials.SAUCE_ACCESS_KEY
+        _url = 'https://' + _credentials + '@ondemand.us-west-1.saucelabs.com:443/wd/hub'
+        #_url = 'https://InstrutorIterasys06:1ac20078-c9c4-44ce-afe5-a153f7c83aa2@ondemand.us-west-1.saucelabs.com:443/wd/hub'
+
         driver_ = webdriver.Remote(_url, capabilities)
     else: # execução local / localhost
         if config.browser == 'chrome':
@@ -75,11 +74,9 @@ def driver(request): # Inicialização dos testes - similar a um Before / Setup
             else:
                 driver_ = webdriver.Firefox()
 
-
     def quit(): # Finalização dos testes - similar ao After ou TearDown
-        # Sinalização de passou ou falhou conforme o retorno da requisição
+        # sinalização de passou ou falhou conforme o retorno da requisição
         sauce_result = 'failed' if request.node.rep_call.failed else 'passed'
-
         driver_.execute_script('sauce:job-result={}'.format(sauce_result))
         driver_.quit()
 
@@ -88,10 +85,10 @@ def driver(request): # Inicialização dos testes - similar a um Before / Setup
 
 @pytest.hookimpl(hookwrapper=True, tryfirst=True) # Implementação do gatilho de comunicação com SL
 def pytest_runtest_makereport(item, call):
-    # Parametros para geração do relatório / informações dos resultados
+    # parametros para geração do relatório / informações dos resultados
     outcome = yield
     rep = outcome.get_result()
 
-    # Definir atributos para o relatório
+    # definir atributos para o relatório
     setattr(item, 'rep_' + rep.when, rep)
 
